@@ -22,14 +22,28 @@ df_ccl = feature.classify_dataframe(df, "College_Name")
 #As we don't want the model to memorize college name
 df_ccl=df_ccl.drop(["Branch","College_Name"],axis=1)
 
-#Splitting the data using sklearn
-from sklearn.model_selection import train_test_split
+#Let's train the college_classifier_model Logistic_Regression now
+from Models import Logistic_Model_class
+lm=Logistic_Model_class()
 Y_ccl=df_ccl["college_type"]
 X_ccl=df_ccl.drop(["college_type"],axis=1)
-X_train_ccl,X_test_ccl,Y_train_ccl,Y_test_ccl=train_test_split(X_ccl,Y_ccl,test_size=0.2,stratify=Y_ccl,random_state=42)
+lm.train(X_ccl,Y_ccl)
 
-#Using Column_Transformer and Label encoding for target variable using Pre_Processing Package
-from Pre_Processing import Transformers
-trf=Transformers()
-X_train_ccl,Y_train_ccl=trf.fit_transform(X_train_ccl,Y_train_ccl)
-X_test_ccl,Y_test_ccl=trf.transform(X_test_ccl,Y_test_ccl)
+#Predict
+y_pred_lm=lm.predict()
+#Evaluate
+lm.evaluate()
+#The Model works well
+
+#Lets train the College_Classifier Tree Model and repeat the steps
+from Models import DecisionTree_Model
+
+tree_clf=DecisionTree_Model()
+tree_clf.train(X_ccl,Y_ccl)
+y_pred_tree=tree_clf.predict()
+tree_clf.predict()
+metrics=tree_clf.evaluate()
+#I have modified the print_metrics function so i need to pass metrics parameter now
+tree_clf.print_metrics(metrics)
+
+
