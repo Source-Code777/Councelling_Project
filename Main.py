@@ -23,7 +23,7 @@ df_ccl = feature.classify_dataframe(df, "College_Name")
 df_ccl=df_ccl.drop(["Branch","College_Name"],axis=1)
 
 #Let's train the college_classifier_model Logistic_Regression now
-from Models import Logistic_Model_class
+from Models_ccl import Logistic_Model_class
 lm=Logistic_Model_class()
 Y_ccl=df_ccl["college_type"]
 X_ccl=df_ccl.drop(["college_type"],axis=1)
@@ -36,7 +36,7 @@ lm.evaluate()
 #The Model works well
 
 #Lets train the College_Classifier Tree Model and repeat the steps
-from Models import DecisionTree_Model
+from Models_ccl import DecisionTree_Model
 
 tree_clf=DecisionTree_Model()
 tree_clf.train(X_ccl,Y_ccl)
@@ -45,5 +45,15 @@ tree_clf.predict()
 metrics=tree_clf.evaluate()
 #I have modified the print_metrics function so i need to pass metrics parameter now
 tree_clf.print_metrics(metrics)
+
+#Let's train a forest model now and see how it is performing
+from Models_ccl import RandomForest_Model
+rf=RandomForest_Model()
+rf.train(X_ccl,Y_ccl)
+#Let's predict
+rf.predict()
+#Let's evaluate the rf_model
+rf_metrics=rf.evaluate()
+rf.print_metrics(rf_metrics)
 
 
